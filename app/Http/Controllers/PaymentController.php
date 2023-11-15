@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
+use Illuminate\Http\RedirectResponse;
 
 class PaymentController extends Controller
 {
@@ -15,6 +16,11 @@ class PaymentController extends Controller
     {
         //
         return view('payments.index');
+    }
+    public function save(StorePaymentRequest $request):RedirectResponse
+    {
+        Payment::create($request->all());
+        return redirect('/transactions/'.$request->transaction);
     }
 
     /**

@@ -29,7 +29,8 @@ class TransactionController extends Controller
 
     public function read( string $id){
         $transaction=Transaction::findOrFail($id);
-        return view('transactions.read',['transaction'=>$transaction]);
+        $payments=$transaction->payments;
+        return view('transactions.read',['transaction'=>$transaction,'payments'=>$payments]);
     }
     /**
      * Show the form for creating a new resource.

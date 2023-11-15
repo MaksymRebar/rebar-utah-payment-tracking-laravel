@@ -13,6 +13,9 @@
                     Amount : {{$transaction->amount}} USD $
                     </div>
                     <div>
+                        Paid : {{$transaction->paid()}} USD $
+                    </div>
+                    <div>
                         Payer : {{$transaction->payer}}
                     </div>
                     <div>
@@ -24,9 +27,17 @@
                     <div>
                         VAT Inclusive? : {{$transaction->is_vat_inclusive}}
                     </div>
-                    <div class="m-1.5" >
-                        <a href="{{route('payments.edit',['transaction'=>$transaction->id])}}" ><x-primary-button >{{ __('New Payment') }}</x-primary-button></a>
+                    <div>
+                        Paid : {{$transaction->paid()}} USD $
                     </div>
+                    <div class="m-1.5" >
+                        <a href="/transactions/{{$transaction->id}}/add-payment" ><x-primary-button >{{ __('New Payment') }}</x-primary-button></a>
+                    </div>
+                    @foreach($payments as $payment)
+                        <div>
+                            {{$payment->amount}}
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>

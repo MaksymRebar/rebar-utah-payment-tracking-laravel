@@ -22,7 +22,6 @@
 
                         <form method="POST"  action="{{ route('transactions.save') }}" class="mt-6 space-y-6">
                             @csrf
-                            @method('POST')
 
                             <div>
                                 <x-input-label for="amount" :value="__('Amount / USD $')" />
@@ -55,7 +54,8 @@
                             </div>
 
                             <div class="flex items-center gap-4">
-                                <x-primary-button>{{ __('Save') }}</x-primary-button>
+{{--                                <x-primary-button>{{ __('Save') }}</x-primary-button>--}}
+                                <input type="submit" value="Save">
                             </div>
                         </form>
 

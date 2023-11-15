@@ -20,12 +20,12 @@
                     </header>
 
 
-                    <form method="POST"  action="{{ route('transactions.save') }}" class="mt-6 space-y-6">
+                    <form method="POST"  action="{{ route('payments.save') }}" class="mt-6 space-y-6">
                         @csrf
 
                         <div>
                             <x-input-label for="transaction" :value="__('Transaction ID')" />
-                            <x-text-input id="transaction" value="{{$transaction}}" disabled name="transaction" type="number" class="mt-1 block w-full"  required autofocus autocomplete="transaction" />
+                            <x-text-input id="transaction" value="{{$transaction}}"  name="transaction" type="number" class="mt-1 block w-full"  required autofocus autocomplete="transaction" />
                             <x-input-error class="mt-2" :messages="$errors->get('transaction')" />
                         </div>
 
@@ -38,7 +38,7 @@
 
                         <div>
                             <x-input-label for="paid_on" :value="__('Paid On')" />
-                            <x-text-input  id="paid_on" name="due_on" type="date" class="mt-1 block w-full"  required autofocus autocomplete="paid_on" />
+                            <x-text-input  id="paid_on" name="paid_on" type="date" class="mt-1 block w-full"  required autofocus autocomplete="paid_on" />
                             <x-input-error class="mt-2" :messages="$errors->get('paid_on')" />
                         </div>
 

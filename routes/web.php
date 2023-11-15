@@ -36,11 +36,13 @@ Route::get('/transactions/edit',function (){
 })->name('transactions.edit');
 Route::post('/transactions/save',[TransactionController::class,'save'])->name('transactions.save');
 Route::get('/transactions/{id}',[TransactionController::class,'read'])->name('transactions.read');
-Route::get('/transactions/{id}/add-payment',[PaymentController::class,'edit'])->name('payments.edit');
 
 Route::get('/payments',[PaymentController::class,'index'])->name('payments');
-Route::get('/payments/edit',function(){
-    return view('payments.edit');
+Route::get('/transactions/{id}/add-payment',function (int $id){
+    return view('payments.edit',['transaction'=>$id]);
 })->name('payments.edit');
+Route::post('/payments/save',[PaymentController::class,'save'])->name('payments.save');
+
+
 
 require __DIR__.'/auth.php';
