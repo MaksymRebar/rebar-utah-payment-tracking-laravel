@@ -15,6 +15,7 @@ class Transaction extends Model
     }
     public function paid():float{
         $payments=$this->hasMany(Payment::class,'transaction','id');
-        return $payments->sum('amount');
+        $tax= $payments->sum('amount')*($this->vat)*($this->is_vat_inclusive)/100;
+        return $payments->sum('amount')-$tax;
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
+use App\Models\Transaction;
 use Illuminate\Http\RedirectResponse;
 
 class PaymentController extends Controller
@@ -19,6 +20,9 @@ class PaymentController extends Controller
     }
     public function save(StorePaymentRequest $request):RedirectResponse
     {
+        $transaction=Transaction::findOrFail($request->transaction);
+//        if(($transaction->paid()+$request->amount)>$transaction->amount)
+//            return redirect('/transactions/'.$request->transaction);
         Payment::create($request->all());
         return redirect('/transactions/'.$request->transaction);
     }

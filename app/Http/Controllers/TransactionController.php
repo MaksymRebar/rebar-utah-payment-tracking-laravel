@@ -37,15 +37,13 @@ class TransactionController extends Controller
      */
     public function save(StoreTransactionRequest $request):RedirectResponse
     {
-        //
 
-//        Transaction::create($request->all());
         $newTransaction=new Transaction;
         $newTransaction->amount=$request->amount;
         $newTransaction->payer=$request->payer;
         $newTransaction->due_on=$request->due_on;
         $newTransaction->vat=$request->vat;
-        $newTransaction->is_vat_inclusive=true;
+        $newTransaction->is_vat_inclusive=$request->is_vat_inclusive=="on"?true:false;
         $newTransaction->save();
         return redirect()->route('transactions');
     }

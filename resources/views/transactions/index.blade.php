@@ -11,14 +11,60 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100 inline">
                     <a href="{{route('transactions.edit')}}" ><x-primary-button >{{ __('New Transaction') }}</x-primary-button></a>
                     <div class="space-y-5">
-                        @foreach($transactions as $transaction)
-                            <a href="{{route('transactions.read',['id'=>$transaction->id])}}" >
-                                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                    {{ $transaction->amount }} USD $ - {{$transaction->payer}}
-                                </h2>
-                            </a>
+{{--                        @foreach($transactions as $transaction)--}}
+{{--                            <a href="{{route('transactions.read',['id'=>$transaction->id])}}" >--}}
+{{--                                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">--}}
+{{--                                    {{$transaction->paid()}} USD $ of {{ $transaction->amount }} USD $ Paid- {{$transaction->payer}} ---}}
+{{--                                </h2>--}}
+{{--                            </a>--}}
 
-                        @endforeach
+{{--                        @endforeach--}}
+                        <table class="w-full text-center border-s-black " >
+                            <thead>
+
+                                <tr>
+                                    <td class="w-1/12" ></td>
+                                    <td class="w-1/12">Total Amount</td>
+                                    <td class="w-1/12" >Paid</td>
+
+                                    <td class="w-1/12">Payer</td>
+                                    <td class="w-1/12">Due Date</td>
+                                    <td class="w-1/12">VAT</td>
+                                    <td class="w-1/12">VAT inclusive?</td>
+                                    <td class="w-1/12">Status</td>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @foreach($transactions as $transaction)
+                                    <tr>
+                                        <td><a href="{{route('transactions.read',['id'=>$transaction->id])}}"><x-primary-button>{{__('View')}}</x-primary-button></a></td>
+                                        <td>{{ $transaction->amount }}</td>
+                                        <td>{{ $transaction->paid() }}</td>
+                                        <td>{{ $transaction->payer }}</td>
+                                        <td>{{ $transaction->due_on }}</td>
+                                        <td>{{ $transaction->vat }}%</td>
+                                        <td>{{ $transaction->is_vat_inclusive }}</td>
+                                        <td>
+                                            @php
+                                                $status="Calculating...";
+                                                 if($transaction->paid()>=$transaction->amount){
+                                                     $status="Paid";
+                                                 }else{
+                                                    $date1 = new DateTime($transaction->due_on);
+                                                    $date2 = new DateTime();
+                                                    if($date1>$date2) $status="Outstanding";
+                                                    else $status= "Overdue";
+                                                 }
+                                                // Create DateTime objects from the date texts
+
+                                            @endphp
+                                            {{$status}}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
