@@ -33,15 +33,15 @@ Route::middleware('auth')->group(function () {
 Route::get('/transactions',[TransactionController::class,'index'])->name('transactions');
 Route::get('/transactions/edit',function (){
     return view('transactions.edit');
-})->name('transactions.edit');
-Route::post('/transactions/save',[TransactionController::class,'save'])->name('transactions.save');
+})->middleware(['auth','IsAdmin'])->name('transactions.edit');
+Route::post('/transactions/save',[TransactionController::class,'save'])->middleware(['auth','IsAdmin'])->name('transactions.save');
 Route::get('/transactions/{id}',[TransactionController::class,'read'])->name('transactions.read');
 
 Route::get('/payments',[PaymentController::class,'index'])->name('payments');
 Route::get('/transactions/{id}/add-payment',function (int $id){
     return view('payments.edit',['transaction'=>$id]);
-})->name('payments.edit');
-Route::post('/payments/save',[PaymentController::class,'save'])->name('payments.save');
+})->middleware(['auth','IsAdmin'])->name('payments.edit');
+Route::post('/payments/save',[PaymentController::class,'save'])->middleware(['auth','IsAdmin'])->name('payments.save');
 
 
 

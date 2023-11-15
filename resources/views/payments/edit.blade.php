@@ -38,7 +38,7 @@
 
                         <div>
                             <x-input-label for="paid_on" :value="__('Paid On')" />
-                            <x-text-input  id="paid_on" name="paid_on" type="date" class="mt-1 block w-full"  required autofocus autocomplete="paid_on" />
+                            <x-text-input  id="paid_on" value="{{date('n/d/Y')}}" name="paid_on" type="date" class="mt-1 block w-full"  required autofocus autocomplete="paid_on" />
                             <x-input-error class="mt-2" :messages="$errors->get('paid_on')" />
                         </div>
 

@@ -33,4 +33,5 @@
             </main>
         </div>
     </body>
+    @include('layouts.error')
 </html>

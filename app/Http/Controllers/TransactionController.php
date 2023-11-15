@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
-use http\Client\Request;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 
@@ -20,15 +21,18 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $transactions=Transaction::all();
+        if($request->user()->role=="customer") $transactions=Transaction::where('payer',$request->user()->name)->get();
+        else $transactions=Transaction::all();
         return view('transactions.index',['transactions'=>$transactions]);
     }
 
-    public function read( string $id){
+    public function read(Request $request ,string $id){
         $transaction=Transaction::findOrFail($id);
+        if($request->user()->role!="admin"&&$request->user()->name!=$transaction->payer)
+            return redirect()->back()->withErrors(['error'=>"No Permission!"]);
         $payments=$transaction->payments;
         return view('transactions.read',['transaction'=>$transaction,'payments'=>$payments]);
     }
@@ -38,6 +42,8 @@ class TransactionController extends Controller
     public function save(StoreTransactionRequest $request):RedirectResponse
     {
 
+        $payer=User::where('name', $request->payer)->first();
+        if(!$payer) return redirect()->back()->withErrors(["error"=>"NO User!"]);
         $newTransaction=new Transaction;
         $newTransaction->amount=$request->amount;
         $newTransaction->payer=$request->payer;
