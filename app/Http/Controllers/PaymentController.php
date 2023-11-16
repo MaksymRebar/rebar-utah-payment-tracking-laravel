@@ -21,8 +21,8 @@ class PaymentController extends Controller
     public function save(StorePaymentRequest $request):RedirectResponse
     {
         $transaction=Transaction::findOrFail($request->transaction);
-//        if(($transaction->paid()+$request->amount)>$transaction->amount)
-//            return redirect('/transactions/'.$request->transaction);
+        if($transaction->paid()>=$transaction->amount)
+            return redirect()->back()->withErrors(['error'=>"Already Paid!"]);
         Payment::create($request->all());
         return redirect('/transactions/'.$request->transaction);
     }

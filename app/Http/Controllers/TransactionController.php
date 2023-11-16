@@ -24,8 +24,10 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         //
-        if($request->user()->role=="customer") $transactions=Transaction::where('payer',$request->user()->name)->get();
-        else $transactions=Transaction::all();
+        if($request->user()->role=="customer")
+            $transactions=Transaction::where('payer',$request->user()->name)->simplePaginate(10);
+        else
+            $transactions=Transaction::paginate(10);
         return view('transactions.index',['transactions'=>$transactions]);
     }
 
